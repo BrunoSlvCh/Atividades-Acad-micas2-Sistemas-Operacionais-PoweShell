@@ -1,0 +1,180 @@
+Clear-Host
+
+# 1) Série de Fibonacci
+Write-Host "`n--- 1) Sequência de Fibonacci ---" -ForegroundColor Yellow
+[int]$qtd = Read-Host "Informe quantos termos da sequência deseja visualizar"
+
+$n1 = 0
+$n2 = 1
+$resultado = @() 
+
+if ($qtd -ge 1) { $resultado += $n1 }
+if ($qtd -ge 2) { $resultado += $n2 }
+
+for ($i = 2; $i -lt $qtd; $i++) {
+    $prox = $n1 + $n2
+    $resultado += $prox
+    $n1 = $n2
+    $n2 = $prox
+}
+
+Write-Host "Resultado da sequência com $qtd termos: " -NoNewline
+Write-Host ($resultado -join " - ") -ForegroundColor Green
+
+
+# 2) Ordem Crescente ou Decrescente
+Write-Host "`n--- 2) Contagem Crescente ou Decrescente ---" -ForegroundColor Yellow
+[int]$inicio = Read-Host "Digite o valor inicial"
+[int]$final = Read-Host "Digite o valor final"
+[int]$incremento = Read-Host "Informe o passo da contagem"
+$ordem = Read-Host "Escolha entre Crescente ou Decrescente"
+
+Write-Host "`nExibindo sequência:" -ForegroundColor Cyan
+
+if ($ordem -match "^crescente") {
+    if ($inicio -gt $final) { 
+        Write-Host "Erro: o valor inicial precisa ser menor que o final." -ForegroundColor Red
+    } else {
+        for ($i = $inicio; $i -le $final; $i += $incremento) {
+            Write-Host $i
+        }
+    }
+} elseif ($ordem -match "^decrescente") {
+    if ($inicio -lt $final) { 
+        Write-Host "Erro: o valor inicial precisa ser maior que o final." -ForegroundColor Red
+    } else {
+        for ($i = $inicio; $i -ge $final; $i -= $incremento) {
+            Write-Host $i
+        }
+    }
+} else {
+    Write-Host "Tipo de ordem inválido." -ForegroundColor Red
+}
+
+
+# 3) Tabuada 
+Write-Host "`n--- 3) Multiplicação Aleatória ---" -ForegroundColor Yellow
+$numAleatorio = Get-Random -Minimum 1 -Maximum 21 
+
+Write-Host "Número gerado: $numAleatorio`n" -ForegroundColor Green
+
+for ($i = 1; $i -le 10; $i++) {
+    $resultado = $numAleatorio * $i
+    Write-Host "$numAleatorio x $i = $resultado"
+}
+
+
+# 4) Jogo de Matemática
+do {
+    Write-Host "`n--- 4) Desafio Matemático ---" -ForegroundColor Yellow
+    
+    $acertos = 0
+    $jogando = $true
+
+    while ($jogando) {
+
+        $n1 = Get-Random -Minimum 2 -Maximum 101
+        $n2 = Get-Random -Minimum 2 -Maximum 101
+
+        $operadores = @('+', '-', '*')
+        $op = $operadores | Get-Random
+
+        switch ($op) {
+            '+' { $respostaCorreta = $n1 + $n2 }
+            '-' { $respostaCorreta = $n1 - $n2 }
+            '*' { $respostaCorreta = $n1 * $n2 }
+        }
+
+        $palpite = Read-Host "Resolva: $n1 $op $n2"
+
+        if ([string]$palpite -eq [string]$respostaCorreta) {
+            Write-Host "Resposta correta!" -ForegroundColor Green
+            $acertos++
+        }
+        else {
+            Write-Host "Resposta incorreta! O resultado certo era $respostaCorreta." -ForegroundColor Red
+            Write-Host "Total de acertos: $acertos" -ForegroundColor Cyan
+            $jogando = $false
+        }
+    }
+
+    $continuarMath = Read-Host "Deseja iniciar uma nova rodada? (S/N)"
+
+} while ($continuarMath -match "^[Ss]")
+
+
+# 5) Jogo Pedra, Papel ou Tesoura
+do {
+    Write-Host "`n--- 5) Pedra, Papel ou Tesoura ---" -ForegroundColor Yellow
+
+    $opcoes = @("Pedra", "Papel", "Tesoura")
+
+    $escolhaUsuario = Read-Host "Digite Pedra, Papel ou Tesoura"
+
+    if ($escolhaUsuario) {
+        $escolhaUsuario = (Get-Culture).TextInfo.ToTitleCase($escolhaUsuario.ToLower())
+    }
+
+    if ($opcoes -notcontains $escolhaUsuario) {
+        Write-Host "Escolha inválida!" -ForegroundColor Red
+        continue
+    }
+
+    $escolhaMaquina = $opcoes | Get-Random
+
+    Write-Host "Computador escolheu: $escolhaMaquina"
+
+    if ($escolhaUsuario -eq $escolhaMaquina) {
+        Write-Host "Houve empate!" -ForegroundColor Cyan
+    }
+    elseif (
+        ($escolhaUsuario -eq "Pedra" -and $escolhaMaquina -eq "Tesoura") -or
+        ($escolhaUsuario -eq "Tesoura" -and $escolhaMaquina -eq "Papel") -or
+        ($escolhaUsuario -eq "Papel" -and $escolhaMaquina -eq "Pedra")
+    ) {
+        Write-Host "Você ganhou a partida!" -ForegroundColor Green
+    }
+    else {
+        Write-Host "A máquina venceu!" -ForegroundColor Red
+    }
+
+    $continuarPPT = Read-Host "Quer jogar novamente? (S/N)"
+
+} while ($continuarPPT -match "^[Ss]")
+
+
+# 6) Jogo de Adivinhação
+do {
+    Write-Host "`n--- 6) Descubra o Número ---" -ForegroundColor Yellow
+
+    $numeroSorteado = Get-Random -Minimum 50 -Maximum 101
+
+    $tentativasMaximas = 6
+    $ganhou = $false
+
+    Write-Host "Você possui $tentativasMaximas chances para acertar."
+
+    for ($i = 1; $i -le $tentativasMaximas; $i++) {
+
+        [int]$palpite = Read-Host "Informe seu palpite da tentativa $i"
+
+        if ($palpite -eq $numeroSorteado) {
+            Write-Host "Parabéns! Você encontrou o número $numeroSorteado" -ForegroundColor Green
+            $ganhou = $true
+            break
+        }
+        elseif ($palpite -lt $numeroSorteado) {
+            Write-Host "Tente um valor maior..." -ForegroundColor Cyan
+        }
+        else {
+            Write-Host "Tente um valor menor..." -ForegroundColor Cyan
+        }
+    }
+
+    if (-not $ganhou) {
+        Write-Host "Fim de jogo! O número correto era $numeroSorteado" -ForegroundColor Red
+    }
+
+    $continuarAdivinha = Read-Host "Deseja tentar novamente? (S/N)"
+
+} while ($continuarAdivinha -match "^[Ss]")
