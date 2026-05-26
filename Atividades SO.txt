@@ -1,6 +1,6 @@
 Clear-Host
 
-# 1) Série de Fibonacci
+# 1)
 Write-Host "`n--- 1) Sequência de Fibonacci ---" -ForegroundColor Yellow
 [int]$qtd = Read-Host "Informe quantos termos da sequência deseja visualizar"
 
@@ -22,7 +22,7 @@ Write-Host "Resultado da sequência com $qtd termos: " -NoNewline
 Write-Host ($resultado -join " - ") -ForegroundColor Green
 
 
-# 2) Ordem Crescente ou Decrescente
+# 2) 
 Write-Host "`n--- 2) Contagem Crescente ou Decrescente ---" -ForegroundColor Yellow
 [int]$inicio = Read-Host "Digite o valor inicial"
 [int]$final = Read-Host "Digite o valor final"
@@ -52,7 +52,7 @@ if ($ordem -match "^crescente") {
 }
 
 
-# 3) Tabuada 
+# 3)  
 Write-Host "`n--- 3) Multiplicação Aleatória ---" -ForegroundColor Yellow
 $numAleatorio = Get-Random -Minimum 1 -Maximum 21 
 
@@ -64,7 +64,7 @@ for ($i = 1; $i -le 10; $i++) {
 }
 
 
-# 4) Jogo de Matemática
+# 4) 
 do {
     Write-Host "`n--- 4) Desafio Matemático ---" -ForegroundColor Yellow
     
@@ -103,7 +103,7 @@ do {
 } while ($continuarMath -match "^[Ss]")
 
 
-# 5) Jogo Pedra, Papel ou Tesoura
+# 5) 
 do {
     Write-Host "`n--- 5) Pedra, Papel ou Tesoura ---" -ForegroundColor Yellow
 
@@ -143,7 +143,7 @@ do {
 } while ($continuarPPT -match "^[Ss]")
 
 
-# 6) Jogo de Adivinhação
+# 6) 
 do {
     Write-Host "`n--- 6) Descubra o Número ---" -ForegroundColor Yellow
 
